@@ -1,0 +1,52 @@
+{
+  "format": 1,
+  "restore": {
+    "/home/vitor-wille/Desktop/Vitor/1. CATOLICA/poo-manseira/SalaShow-N3/SalaShow/SalaShow/SalaShow.csproj": {}
+  },
+  "projects": {
+    "/home/vitor-wille/Desktop/Vitor/1. CATOLICA/poo-manseira/SalaShow-N3/SalaShow/SalaShow/SalaShow.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/home/vitor-wille/Desktop/Vitor/1. CATOLICA/poo-manseira/SalaShow-N3/SalaShow/SalaShow/SalaShow.csproj",
+        "projectName": "SalaShow",
+        "projectPath": "/home/vitor-wille/Desktop/Vitor/1. CATOLICA/poo-manseira/SalaShow-N3/SalaShow/SalaShow/SalaShow.csproj",
+        "packagesPath": "/home/vitor-wille/.nuget/packages/",
+        "outputPath": "/home/vitor-wille/Desktop/Vitor/1. CATOLICA/poo-manseira/SalaShow-N3/SalaShow/SalaShow/obj/",
+        "projectStyle": "PackageReference",
+        "skipContentFileWrite": true,
+        "UsingMicrosoftNETSdk": false,
+        "configFilePaths": [
+          "/home/vitor-wille/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net472"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net472": {
+            "projectReferences": {}
+          }
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        }
+      },
+      "frameworks": {
+        "net472": {
+          "dependencies": {
+            "Microsoft.NETFramework.ReferenceAssemblies": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[1.0.3, )"
+            }
+          }
+        }
+      }
+    }
+  }
+}

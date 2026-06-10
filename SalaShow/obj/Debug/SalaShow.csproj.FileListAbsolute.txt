@@ -1,0 +1,5 @@
+/home/vitor-wille/Desktop/Vitor/1. CATOLICA/poo-manseira/SalaShow-N3/SalaShow/SalaShow/obj/Debug/SalaShow.csproj.CoreCompileInputs.cache
+/home/vitor-wille/Desktop/Vitor/1. CATOLICA/poo-manseira/SalaShow-N3/SalaShow/SalaShow/bin/Debug/SalaShow.exe
+/home/vitor-wille/Desktop/Vitor/1. CATOLICA/poo-manseira/SalaShow-N3/SalaShow/SalaShow/bin/Debug/SalaShow.pdb
+/home/vitor-wille/Desktop/Vitor/1. CATOLICA/poo-manseira/SalaShow-N3/SalaShow/SalaShow/obj/Debug/SalaShow.exe
+/home/vitor-wille/Desktop/Vitor/1. CATOLICA/poo-manseira/SalaShow-N3/SalaShow/SalaShow/obj/Debug/SalaShow.pdb
