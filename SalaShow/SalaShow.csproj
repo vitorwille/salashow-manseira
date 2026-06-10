@@ -40,13 +40,15 @@
         <Reference Include="System.Xml"/>
     </ItemGroup>
     <ItemGroup>
+        <Compile Include="Model\BookingModel.cs" />
+        <Compile Include="Model\RequestorModel.cs" />
+        <Compile Include="Model\RoomModel.cs" />
         <Compile Include="Program.cs"/>
         <Compile Include="Properties\AssemblyInfo.cs"/>
         <Compile Include="View\View.cs" />
     </ItemGroup>
     <ItemGroup>
       <Folder Include="Controller\" />
-      <Folder Include="Model\" />
     </ItemGroup>
     <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets"/>
     <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
