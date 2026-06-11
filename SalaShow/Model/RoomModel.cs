@@ -5,7 +5,7 @@ namespace SalaShow.Model
     public class RoomModel
     {
         // atributos
-        private int _code;
+        private string _code;
         private string _name;
         private string _location;
         private string _capacity;
@@ -15,7 +15,7 @@ namespace SalaShow.Model
 
 
         // prop
-        public int Code
+        public string Code
         {
             get { return _code; }
             set { _code = value; }
@@ -53,7 +53,7 @@ namespace SalaShow.Model
         
         public RoomModel()
         {
-            this._code = 0;
+            this._code = "";
             this._name = "";
             this._location = "";
             this._capacity = "";
@@ -61,13 +61,13 @@ namespace SalaShow.Model
             this._extras = new List<string>();
         }
         
-        public RoomModel(int roomCode, string roomName, string roomLocation, string roomCapacity, bool roomBusy, List<string> roomExtras)
+        public RoomModel(string roomCode, string roomName, string roomLocation, string roomCapacity, string roomBusy, List<string> roomExtras)
         {   
             this._code = roomCode;
             this._name = roomName;
             this._location = roomLocation;
             this._capacity = roomCapacity;
-            this._busy = roomBusy;
+            this._busy = roomBusy == "S" ? true : false;
             this._extras = roomExtras;
         }
     }

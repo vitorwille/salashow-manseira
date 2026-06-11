@@ -30,7 +30,7 @@ namespace SalaShow
         
         public void CenterWindow(int colStart, int colEnd, int line, string windowTitle)
         {
-            int column = colStart + ((colEnd - colStart - windowTitle.Length) / 2);
+            int column = colStart + 1 + ((colEnd - colStart - 1 - windowTitle.Length) / 2);
             Console.SetCursorPosition(column, line);
             Console.Write(windowTitle);
         }
@@ -102,11 +102,10 @@ namespace SalaShow
                 Console.Write('━');
             }
         }
-
-
+        
         public string ShowOptionsModal(int colStart, int linStart, List<string> optionsList)
         {
-            string escolha;
+            string answer;
             int i;
             int colEnd = colStart + optionsList[0].Length + 1;
             int linEndModal = linStart + optionsList.Count() + 2;
@@ -118,14 +117,10 @@ namespace SalaShow
                 Console.Write(optionsList[i]);
             }
             Console.SetCursorPosition(colStart + 1, linStart + 1 + i);
-            Console.Write("Opção: ");
-            escolha = Console.ReadLine();
+            Console.Write("Seleção: ");
+            answer = Console.ReadLine().ToUpper();
 
-            return escolha;
+            return answer;
         }
-
-
-
-
     }
 }

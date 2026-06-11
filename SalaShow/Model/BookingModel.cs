@@ -2,19 +2,19 @@ namespace SalaShow.Model
 {
     public class BookingModel
     {
-        private int _requestorId;
-        private int _roomId;
+        private string _requestorId;
+        private string _roomId;
         private string _appointmentDate;
         private string _appointmentTimeStart;
         private string _appointmentTimeEnd;
         
-        public int RequestorId
+        public string RequestorId
         {
             get { return _requestorId; }
             set { _requestorId = value; }
         }
 
-        public int RoomId
+        public string RoomId
         {
             get { return _roomId; }
             set { _roomId = value; }
@@ -40,14 +40,14 @@ namespace SalaShow.Model
         
         public BookingModel()
         {
-            this._requestorId = 0;
-            this._roomId = 0;
+            this._requestorId = "";
+            this._roomId = "";
             this._appointmentDate = "";
             this._appointmentTimeStart = "";
             this._appointmentTimeEnd = "";
         }
         
-        public BookingModel(int requestorId, int roomId, string appointmentDate, string appointmentTimeStart, string appointmentTimeEnd)
+        public BookingModel(string requestorId, string roomId, string appointmentDate, string appointmentTimeStart, string appointmentTimeEnd)
         {   
             this._requestorId = requestorId;
             this._roomId = roomId;
