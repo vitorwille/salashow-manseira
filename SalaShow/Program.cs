@@ -22,8 +22,8 @@ namespace SalaShow
       optionsMenu.Add("8 - Gerenciar Usuários                             ");
       optionsMenu.Add("9 - Gerenciar Salas                                ");
       optionsMenu.Add("───────────────────────────────────────────────────");
+      optionsMenu.Add("                                                   ");
       optionsMenu.Add("x - Sair                                           ");
-      optionsMenu.Add("───────────────────────────────────────────────────");
       optionsMenu.Add("                                                   ");
 
       while (1 == 1)

@@ -36,7 +36,7 @@ namespace SalaShow.Controller
 
             this._inputColumn = this._column + 1 + maxLabelLen;
             this._width = this._fields[0].Length + 2;
-            this._height = this._fields.Count + 2;
+            this._height = this._fields.Count + 6;
 
             this._roomModel = new RoomModel();
             this._rooms = new List<RoomModel>();
