@@ -8,16 +8,16 @@ namespace SalaShow
   {
     public static void Main(string[] args)
     {
-      string escolha;
-      View janela = new View(ConsoleColor.DarkBlue, ConsoleColor.Gray);
-      List<string> opcMenu = new List<string>();
-      opcMenu.Add("x - Sair     ");
+      string answer;
+      View window = new View(ConsoleColor.DarkBlue, ConsoleColor.Gray);
+      List<string> optionsMenu = new List<string>();
+      optionsMenu.Add("x - Sair     ");
 
       while (1 == 1)
       {
-        janela.PrepararJanela("Menu Principal", 5, 1, 50, 20);
-        escolha = janela.MostrarJanelaOpcoes(5, 22, opcMenu);
-        switch (escolha)
+        window.PrepareWindow("Menu Principal", 5, 1, 50, 20);
+        answer = window.ShowOptionsModal(5, 22, optionsMenu);
+        switch (answer)
         {
           case "x":
             Console.Clear();

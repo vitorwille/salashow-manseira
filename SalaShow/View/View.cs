@@ -8,48 +8,48 @@ namespace SalaShow
 {
     internal class View
     {
-        private ConsoleColor _corBg;
-        private ConsoleColor _corTexto;
+        private ConsoleColor _colorBg;
+        private ConsoleColor _colorText;
         
         public View(ConsoleColor colorBg, ConsoleColor colorTxt)
         {
-            this._corBg = colorBg;
-            this._corTexto = colorTxt;
+            this._colorBg = colorBg;
+            this._colorText = colorTxt;
         }
         
         public View() { }
         
-        public void PrepararJanela(string tituloJanela, int colIni, int linIni, int colFin, int linFin)
+        public void PrepareWindow(string windowTitle, int colStart, int linStart, int colEnd, int linEnd)
         {
-            Console.BackgroundColor = this._corBg;
-            Console.ForegroundColor = this._corTexto;
+            Console.BackgroundColor = this._colorBg;
+            Console.ForegroundColor = this._colorText;
             Console.Clear();
-            this.DesenharJanela(colIni, linIni, colFin, linFin);
-            this.CentralizarJanela(colIni, colFin, linIni+1, tituloJanela);
+            this.DrawWindow(colStart, linStart, colEnd, linEnd);
+            this.CenterWindow(colStart, colEnd, linStart+1, windowTitle);
         }
         
-        public void CentralizarJanela(int colIni, int colFin, int linha, string tituloJanela)
+        public void CenterWindow(int colStart, int colEnd, int line, string windowTitle)
         {
-            int coluna = colIni + ((colFin - colIni - tituloJanela.Length) / 2);
-            Console.SetCursorPosition(coluna, linha);
-            Console.Write(tituloJanela);
+            int column = colStart + ((colEnd - colStart - windowTitle.Length) / 2);
+            Console.SetCursorPosition(column, line);
+            Console.Write(windowTitle);
         }
         
-        public string PedirInput(string textoDialogo, int linha, int colIni, int colFin)
+        public string AskInput(string dialogText, int line, int colStart, int colEnd)
         {
-            string resposta;
-            this.LimpaSelecao(colIni, linha, colFin, linha);
-            Console.SetCursorPosition(colIni, linha);
-            Console.Write(textoDialogo);
-            resposta = Console.ReadLine();
-            return resposta.ToUpper();
+            string answer;
+            this.ClearSelection(colStart, line, colEnd, line);
+            Console.SetCursorPosition(colStart, line);
+            Console.Write(dialogText);
+            answer = Console.ReadLine();
+            return answer.ToUpper();
         }
         
-        public void LimpaSelecao(int colIni, int linIni, int colFin, int linFin)
+        public void ClearSelection(int colStart, int linStart, int colEnd, int linEnd)
         {
-            for(int x=colIni; x<=colFin; x++) // x vertical, y horizontal
+            for(int x=colStart; x<=colEnd; x++) // x vertical, y horizontal
             {
-                for (int y=linIni; y<=linFin; y++)
+                for (int y=linStart; y<=linEnd; y++)
                 {
                     Console.SetCursorPosition(x, y);
                     Console.Write(" ");
@@ -57,67 +57,67 @@ namespace SalaShow
             }
         }
         
-        public void DesenharJanela(int colIni, int linIni, int colFin, int linFin)
+        public void DrawWindow(int colStart, int linStart, int colEnd, int linEnd)
         {
-            int linha, coluna;
+            int line, column;
 
-            this.LimpaSelecao(colIni, linIni, colFin, linFin);
+            this.ClearSelection(colStart, linStart, colEnd, linEnd);
 
             // quina baixo esq
-            Console.SetCursorPosition(colIni, linFin);
+            Console.SetCursorPosition(colStart, linEnd);
             Console.Write('┗');
 
             // quina baixo dir
-            Console.SetCursorPosition(colFin, linFin);
+            Console.SetCursorPosition(colEnd, linEnd);
             Console.Write('┛');
             
             // quina cima esq
-            Console.SetCursorPosition(colIni, linIni);
+            Console.SetCursorPosition(colStart, linStart);
             Console.Write('┏');
 
             // quina cima dir
-            Console.SetCursorPosition(colFin, linIni);
+            Console.SetCursorPosition(colEnd, linStart);
             Console.Write('┓');
             
             // vertical
-            for(linha=linIni+1; linha<linFin; linha++)
+            for(line=linStart+1; line<linEnd; line++)
             {
-                Console.SetCursorPosition(colIni, linha);
+                Console.SetCursorPosition(colStart, line);
                 Console.Write("┃");
-                Console.SetCursorPosition(colFin, linha);
+                Console.SetCursorPosition(colEnd, line);
                 Console.Write("┃");
             }
             
-            // horizontal - top
-            for(coluna=colIni+1; coluna<colFin; coluna++) 
+            // horizontal - cima
+            for(column=colStart+1; column<colEnd; column++) 
             {
-                Console.SetCursorPosition(coluna, linIni);
+                Console.SetCursorPosition(column, linStart);
                 Console.Write('━');
             }
 
-            // horizontal - bottom
-            for(coluna=colIni+1; coluna<colFin; coluna++) 
+            // horizontal - baixo
+            for(column=colStart+1; column<colEnd; column++) 
             {
-                Console.SetCursorPosition(coluna, linFin);
+                Console.SetCursorPosition(column, linEnd);
                 Console.Write('━');
             }
         }
 
 
-        public string MostrarJanelaOpcoes(int colIni, int linIni, List<string> listaOpcoes)
+        public string ShowOptionsModal(int colStart, int linStart, List<string> optionsList)
         {
             string escolha;
             int i;
-            int colFin = colIni + listaOpcoes[0].Length + 1;
-            int linFinalJanela = linIni + listaOpcoes.Count() + 2;
+            int colEnd = colStart + optionsList[0].Length + 1;
+            int linEndModal = linStart + optionsList.Count() + 2;
 
-            this.DesenharJanela(colIni, linIni, colFin, linFinalJanela);
-            for(i=0; i<listaOpcoes.Count; i++)
+            this.DrawWindow(colStart, linStart, colEnd, linEndModal);
+            for(i=0; i<optionsList.Count; i++)
             {
-                Console.SetCursorPosition(colIni+1, linIni+1+i);
-                Console.Write(listaOpcoes[i]);
+                Console.SetCursorPosition(colStart+1, linStart+1+i);
+                Console.Write(optionsList[i]);
             }
-            Console.SetCursorPosition(colIni + 1, linIni + 1 + i);
+            Console.SetCursorPosition(colStart + 1, linStart + 1 + i);
             Console.Write("Opção: ");
             escolha = Console.ReadLine();
 
