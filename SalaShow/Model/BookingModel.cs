@@ -2,58 +2,58 @@ namespace SalaShow.Model
 {
     public class BookingModel
     {
-        private int _matrSolicitante;
-        private int _codSala;
-        private string _dataReserva;
-        private string _horaInicioReserva;
-        private string _horaFimReserva;
+        private int _requestorId;
+        private int _roomId;
+        private string _appointmentDate;
+        private string _appointmentTimeStart;
+        private string _appointmentTimeEnd;
         
-        public int MatrSolicitante
+        public int RequestorId
         {
-            get { return _matrSolicitante; }
-            set { _matrSolicitante = value; }
+            get { return _requestorId; }
+            set { _requestorId = value; }
         }
 
-        public int CodSala
+        public int RoomId
         {
-            get { return _codSala; }
-            set { _codSala = value; }
+            get { return _roomId; }
+            set { _roomId = value; }
         }
         
-        public string DataReserva
+        public string AppointmentDate
         {
-            get { return _dataReserva; }
-            set { _dataReserva = value; }
+            get { return _appointmentDate; }
+            set { _appointmentDate = value; }
         }
 
-        public string HoraInicioReserva
+        public string AppointmentTimeStart
         {
-            get { return _horaInicioReserva; }
-            set { _horaInicioReserva = value; }
+            get { return _appointmentTimeStart; }
+            set { _appointmentTimeStart = value; }
         }
 
-        public string HoraFimReserva
+        public string AppointmentTimeEnd
         {
-            get { return _horaFimReserva; }
-            set { _horaFimReserva = value; }
+            get { return _appointmentTimeEnd; }
+            set { _appointmentTimeEnd = value; }
         }
         
         public BookingModel()
         {
-            this._matrSolicitante = 0;
-            this._codSala = 0;
-            this._dataReserva = "";
-            this._horaInicioReserva = "";
-            this._horaFimReserva = "";
+            this._requestorId = 0;
+            this._roomId = 0;
+            this._appointmentDate = "";
+            this._appointmentTimeStart = "";
+            this._appointmentTimeEnd = "";
         }
         
-        public BookingModel(int matriculaSolicitante, int codigoSala, string dataReserva, string horaInicio, string horaFim)
+        public BookingModel(int requestorId, int roomId, string appointmentDate, string appointmentTimeStart, string appointmentTimeEnd)
         {   
-            this._matrSolicitante = matriculaSolicitante;
-            this._codSala = codigoSala;
-            this._dataReserva = dataReserva;
-            this._horaInicioReserva = horaInicio;
-            this._horaFimReserva = horaFim;
+            this._requestorId = requestorId;
+            this._roomId = roomId;
+            this._appointmentDate = appointmentDate;
+            this._appointmentTimeStart = appointmentTimeStart;
+            this._appointmentTimeEnd = appointmentTimeEnd;
         }
     }
 }

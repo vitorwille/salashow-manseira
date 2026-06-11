@@ -5,70 +5,70 @@ namespace SalaShow.Model
     public class RoomModel
     {
         // atributos
-        private int _codigo;
-        private string _nome;
-        private string _localizacao;
-        private string _capacidade;
-        private bool _ocupada;
-        private List<string> _recursos;
+        private int _code;
+        private string _name;
+        private string _location;
+        private string _capacity;
+        private bool _busy;
+        private List<string> _extras;
 
 
 
         // prop
-        public int Codigo
+        public int Code
         {
-            get { return _codigo; }
-            set { _codigo = value; }
+            get { return _code; }
+            set { _code = value; }
         }
 
-        public string Nome
+        public string Name
         {
-            get { return _nome; }
-            set { _nome = value; }
+            get { return _name; }
+            set { _name = value; }
         }
 
-        public string Localizacao
+        public string Location
         {
-            get { return _localizacao; }
-            set { _localizacao = value; }
+            get { return _location; }
+            set { _location = value; }
         }
 
-        public string Capacidade
+        public string Capacity
         {
-            get { return _capacidade; }
-            set { _capacidade = value; }
+            get { return _capacity; }
+            set { _capacity = value; }
         }
 
-        public bool Ocupada
+        public bool Busy
         {
-            get { return _ocupada; }
-            set { _ocupada = value; }
+            get { return _busy; }
+            set { _busy = value; }
         }
 
-        public List<string> Recursos
+        public List<string> Extras
         {
-            get { return _recursos; }
-            set { _recursos = value; }
+            get { return _extras; }
+            set { _extras = value; }
         }
         
         public RoomModel()
         {
-            this._codigo = 0;
-            this._nome = "";
-            this._localizacao = "";
-            this._capacidade = "";
-            this._ocupada = false;
-            this._recursos = new List<string>();
+            this._code = 0;
+            this._name = "";
+            this._location = "";
+            this._capacity = "";
+            this._busy = false;
+            this._extras = new List<string>();
         }
         
-        public RoomModel(int codigoSala, string nomeSala, string localizacaoSala, string capacidadeSala, bool estaOcupada, List<string> recursosSala)
+        public RoomModel(int roomCode, string roomName, string roomLocation, string roomCapacity, bool roomBusy, List<string> roomExtras)
         {   
-            this._codigo = codigoSala;
-            this._nome = nomeSala;
-            this._localizacao = localizacaoSala;
-            this._capacidade = capacidadeSala;
-            this._ocupada = estaOcupada;
-            this._recursos = recursosSala;
+            this._code = roomCode;
+            this._name = roomName;
+            this._location = roomLocation;
+            this._capacity = roomCapacity;
+            this._busy = roomBusy;
+            this._extras = roomExtras;
         }
     }
 }

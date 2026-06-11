@@ -2,49 +2,49 @@ namespace SalaShow.Model
 {
     public class RequestorModel
     {
-        private string _matricula;
-        private string _nome;
-        private string _setor;
-        private string _telefone;
+        private string _id;
+        private string _name;
+        private string _department;
+        private string _phone;
 
-        public string Matricula
+        public string Id
         {
-            get { return this._matricula; }
-            set { this._matricula = value; }
+            get { return this._id; }
+            set { this._id = value; }
         }
 
-        public string Nome
+        public string Name
         {
-            get { return this._nome; }
-            set { this._nome = value; }
+            get { return this._name; }
+            set { this._name = value; }
         }
 
-        public string Setor
+        public string Department
         {
-            get { return this._setor; }
-            set { this._setor = value; }
+            get { return this._department; }
+            set { this._department = value; }
         }
 
-        public string Telefone
+        public string Phone
         {
-            get { return this._telefone; }
-            set { this._telefone = value; }
+            get { return this._phone; }
+            set { this._phone = value; }
         }   
         
         public RequestorModel()
         {
-            this._matricula = "";
-            this._nome = "";
-            this._setor = "";
-            this._telefone = "";
+            this._id = "";
+            this._name = "";
+            this._department = "";
+            this._phone = "";
         }
         
-        public RequestorModel(string matriculaSolicitante, string nomeSolicitante, string setorSolicitante, string telefoneSolicitante)
+        public RequestorModel(string requestorId, string requestorName, string requestorDepartment, string requestorPhone)
         {   
-            this._matricula = matriculaSolicitante;
-            this._nome = nomeSolicitante;
-            this._setor = setorSolicitante;
-            this._telefone = telefoneSolicitante;
+            this._id = requestorId;
+            this._name = requestorName;
+            this._department = requestorDepartment;
+            this._phone = requestorPhone;
         }
     }
 }
