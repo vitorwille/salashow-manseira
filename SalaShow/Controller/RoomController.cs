@@ -7,7 +7,6 @@ namespace SalaShow.Controller
     internal class RoomController
     {
         private int _column, _row, _width, _height, _position, _inputColumn;
-        private string _title;
         private View _window;
         private List<string> _fields;
 
@@ -40,7 +39,7 @@ namespace SalaShow.Controller
 
             this._roomModel = new RoomModel();
             this._rooms = new List<RoomModel>();
-            this._rooms.Add(new RoomModel("676767", "Sala de Exemplo", "Bloco A", "20 pessoas", "S", new List<string>(){"Six", "Seven"}));
+            this._rooms.Add(new RoomModel("0", "Sala de Exemplo", "Bloco A", "20 pessoas", "S", new List<string>(){"Six", "Seven"}));
         }
         
         public void ShowRoom()
@@ -82,13 +81,14 @@ namespace SalaShow.Controller
 
         public RoomModel FindRoom(string roomCode)
         {
-            for (int i=0; i<this._rooms.Count; i++)
+            foreach (RoomModel room in _rooms)
             {
-                if (this._rooms[i].Code == roomCode)
+                if (this._rooms[this._rooms.IndexOf(room)].Code == roomCode)
                 {
-                    return this._rooms[i];
+                    return this._rooms[this._rooms.IndexOf(room)];
                 }
             }
+            
             return null;
         }
         
@@ -109,7 +109,6 @@ namespace SalaShow.Controller
                 if (answer == "V")
                 {
                     break;
-                    this.ShowForm();
                 }
                 else if (answer == "N")
                 {
