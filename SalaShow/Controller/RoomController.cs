@@ -25,13 +25,12 @@ namespace SalaShow.Controller
                 " Nº da sala: ",
                 " Bloco: ",
                 " Capacidade: ",
-                " Ocupada? (s/n): ",
                 " Recursos: "
             };
 
             int maxLabelLen = 0;
             for (int i = 1; i < this._fields.Count; i++)
-                if (this._fields[i].Length > maxLabelLen) maxLabelLen = this._fields[i].Length;
+                if (this._fields[i].Length > maxLabelLen) maxLabelLen = this._fields[i].Length; // calcula tamanho das labels
 
             this._inputColumn = this._column + 1 + maxLabelLen;
             this._width = this._fields[0].Length + 2;
@@ -39,7 +38,7 @@ namespace SalaShow.Controller
 
             this._roomModel = new RoomModel();
             this._rooms = new List<RoomModel>();
-            this._rooms.Add(new RoomModel("0", "Sala de Exemplo", "Bloco A", "20 pessoas", "S", new List<string>(){"Six", "Seven"}));
+            this._rooms.Add(new RoomModel("0", "Sala de Exemplo", "Bloco A", "20 pessoas", "N", new List<string>(){"Six", "Seven"}));
         }
         
         public void ShowRoom()
@@ -60,10 +59,6 @@ namespace SalaShow.Controller
 
             Console.SetCursorPosition(this._inputColumn, row);
             Console.Write(this._rooms[this._position].Capacity);
-            row++;
-
-            Console.SetCursorPosition(this._inputColumn, row);
-            Console.Write(this._rooms[this._position].Busy ? "S" : "N");
             row++;
 
             Console.SetCursorPosition(this._inputColumn, row);
@@ -122,7 +117,7 @@ namespace SalaShow.Controller
                         this._rooms.Add(
                             new RoomModel(this._roomModel.Code, this._roomModel.Name,
                                 this._roomModel.Location, this._roomModel.Capacity,
-                                this._roomModel.Busy ? "S" : "N", this._roomModel.Extras)
+                                "N", this._roomModel.Extras)
                         );
                     }
 
@@ -154,7 +149,6 @@ namespace SalaShow.Controller
                                 this._rooms[this._position].Name = this._roomModel.Name;
                                 this._rooms[this._position].Location = this._roomModel.Location;
                                 this._rooms[this._position].Capacity = this._roomModel.Capacity;
-                                this._rooms[this._position].Busy = this._roomModel.Busy;
                                 this._rooms[this._position].Extras = this._roomModel.Extras;
                             }
                         }
@@ -175,7 +169,7 @@ namespace SalaShow.Controller
                                     this._rooms.Add(
                                         new RoomModel(this._roomModel.Code, this._roomModel.Name,
                                             this._roomModel.Location, this._roomModel.Capacity,
-                                            this._roomModel.Busy ? "S" : "N", this._roomModel.Extras)
+                                            "N", this._roomModel.Extras)
                                     );
                                 }
                             }
@@ -253,7 +247,7 @@ namespace SalaShow.Controller
 
             if (showAllFields)
             {
-                for (int i = 2; i < this._fields.Count; i++)
+                for (int i = 2; i < this._fields.Count; i++) // i[0] = separador,i[1] = id
                 {
                     Console.SetCursorPosition(this._column + 1, row);
                     Console.Write(this._fields[i]);
@@ -293,12 +287,43 @@ namespace SalaShow.Controller
                 inputRow++;
 
                 Console.SetCursorPosition(this._inputColumn, inputRow);
-                this._roomModel.Busy = Console.ReadLine().ToUpper() == "S";
-                inputRow++;
-
-                Console.SetCursorPosition(this._inputColumn, inputRow);
                 this._roomModel.Extras = new List<string>(Console.ReadLine().Split(','));
             }
+        }
+
+        public void ShowAllRooms()
+        {
+            int colStart = this._column + 1;
+            int colEnd = this._column + this._width - 1;
+            int line = this._row + this._height - 1;
+
+            this.ShowForm();
+            this._window.ClearSelection(colStart, this._row + 3, colEnd, this._row + 8);
+
+            int displayRow = this._row + 3;
+
+            if (this._rooms.Count == 0)
+            {
+                Console.SetCursorPosition(colStart, displayRow);
+                Console.Write("Nenhuma sala cadastrada.");
+            }
+            else
+            {
+                Console.SetCursorPosition(colStart, displayRow);
+                Console.Write("Salas cadastradas:");
+                displayRow++;
+
+                foreach (RoomModel roomModel in this._rooms)
+                {
+                    Console.SetCursorPosition(colStart, displayRow);
+                    Console.Write(roomModel.Code + " - " + roomModel.Name + " | " + roomModel.Location +
+                        " | " + roomModel.Capacity);
+                    displayRow++;
+                }
+            }
+
+            this._window.AskInput(" Pressione Enter para voltar.", line, colStart, colEnd);
+            this._window.ClearSelection(colStart, line, colEnd, line);
         }
     }
 }

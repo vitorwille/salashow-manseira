@@ -12,17 +12,19 @@ namespace SalaShow
       View window = new View(ConsoleColor.DarkBlue, ConsoleColor.Gray);
       RoomController roomController = new RoomController(10,5, window);
       RequestorController requestorController = new RequestorController(10,5, window);
+      BookingController bookingController = new BookingController(8,5, window, roomController, requestorController);
       
       string answer;
       List<string> optionsMenu = new List<string>();
       optionsMenu.Add(" 1 - Registrar Reserva                              ");
       optionsMenu.Add(" 2 - Cancelar Reserva                               ");
-      optionsMenu.Add(" 3 - Visualizar salas livres (por horário)          ");
-      optionsMenu.Add(" 4 - Visualizar reservas em sala e data específicas ");
+      optionsMenu.Add("                                                    ");
+      optionsMenu.Add(" 4 - Visualizar salas livres (por horário)          ");
+      optionsMenu.Add(" 5 - Visualizar reservas em sala e data específicas ");
+      optionsMenu.Add(" 6 - Visualizar todas as salas                      ");
       optionsMenu.Add("                                                    ");
       optionsMenu.Add(" 8 - Gerenciar Usuários                             ");
       optionsMenu.Add(" 9 - Gerenciar Salas                                ");
-      optionsMenu.Add("                                                    ");
       optionsMenu.Add("                                                    ");
       optionsMenu.Add(" 0 - Sair                                           ");
       optionsMenu.Add("                                                    ");
@@ -38,13 +40,33 @@ namespace SalaShow
             Console.WriteLine("\n/!\\ Encerrando SalaShow...\n\n");
             Process.GetCurrentProcess().Kill();
             break;
-          case "9":
+          case "1":
             Console.Clear();
-            roomController.CRUD();
+            bookingController.RegisterBooking();
+            break;
+          case "2":
+            Console.Clear();
+            bookingController.CancelBooking();
+            break;
+          case "4":
+            Console.Clear();
+            bookingController.ShowFreeRooms();
+            break;
+          case "5":
+            Console.Clear();
+            bookingController.ShowBookingsByRoomAndDate();
+            break;
+          case "6":
+            Console.Clear();
+            roomController.ShowAllRooms();
             break;
           case "8":
             Console.Clear();
             requestorController.CRUD();
+            break;
+          case "9":
+            Console.Clear();
+            roomController.CRUD();
             break;
         }
       }
