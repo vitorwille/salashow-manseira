@@ -23,7 +23,7 @@ namespace SalaShow
       optionsMenu.Add("9 - Gerenciar Salas                                ");
       optionsMenu.Add("───────────────────────────────────────────────────");
       optionsMenu.Add("                                                   ");
-      optionsMenu.Add("x - Sair                                           ");
+      optionsMenu.Add("0 - Sair                                           ");
       optionsMenu.Add("                                                   ");
 
       while (1 == 1)
@@ -32,7 +32,7 @@ namespace SalaShow
         answer = window.ShowOptionsModal(12+1, 5, optionsMenu);
         switch (answer)
         {
-          case "x":
+          case "0":
             Console.Clear();
             Console.WriteLine("\n/!\\ Encerrando SalaShow...\n\n");
             Process.GetCurrentProcess().Kill();

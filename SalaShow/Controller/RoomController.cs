@@ -99,120 +99,141 @@ namespace SalaShow.Controller
             int colEnd = this._column + this._width - 1;
             int line = this._row + this._height - 1;
 
-            this.ShowForm();
-            answer = this._window.AskInput(" (N)ovo | (A)lterar | (C)onsultar | (E)xcluir | (V)oltar: ", line, colStart, colEnd).ToUpper();
-            this._window.ClearSelection(colStart, line, colEnd, line);
-
-            if (answer == "V")
+            do
             {
                 this.ShowForm();
-            }
-            else if (answer == "N")
-            {
-                this.ShowForm(true);
-                this.EnterData("ID");
-                this.EnterData("DATA");
-                answer = this._window.AskInput(" Confirma cadastro? (s/n): ", line, colStart, colEnd).ToUpper();
+                answer = this._window.AskInput(" (N)ovo | (A)lterar | (C)onsultar | (E)xcluir | (V)oltar: ", line,
+                    colStart, colEnd).ToUpper();
                 this._window.ClearSelection(colStart, line, colEnd, line);
-                if (answer == "S")
-                {
-                    this._rooms.Add(
-                        new RoomModel(this._roomModel.Code, this._roomModel.Name,
-                            this._roomModel.Location, this._roomModel.Capacity,
-                            this._roomModel.Busy ? "S" : "N", this._roomModel.Extras)
-                    );
-                }
-                this.ShowForm();
-            }
-            else
-            {
-                this.EnterData("ID");
-                RoomModel roomFoundModel = this.FindRoom(this._roomModel.Code);
-                bool roomFound = roomFoundModel != null;
 
-                if (answer == "A")
+                if (answer == "V")
                 {
-                    if (roomFound)
+                    break;
+                    this.ShowForm();
+                }
+                else if (answer == "N")
+                {
+                    this.ShowForm(true);
+                    this.EnterData("ID");
+                    this.EnterData("DATA");
+                    answer = this._window.AskInput(" Confirma cadastro? (s/n): ", line, colStart, colEnd).ToUpper();
+                    this._window.ClearSelection(colStart, line, colEnd, line);
+                    if (answer == "S")
                     {
-                        this._position = this._rooms.IndexOf(roomFoundModel);
-                        this._roomModel = new RoomModel();
-                        this.ShowForm(true);
-                        this.ShowRoom();
-                        this.ClearInputs();
-                        this.EnterData("DATA");
-                        answer = this._window.AskInput(" Confirma edição? (s/n): ", line, colStart, colEnd).ToUpper();
-                        this._window.ClearSelection(colStart, line, colEnd, line);
-                        if (answer == "S")
-                        {
-                            this._rooms[this._position].Name = this._roomModel.Name;
-                            this._rooms[this._position].Location = this._roomModel.Location;
-                            this._rooms[this._position].Capacity = this._roomModel.Capacity;
-                            this._rooms[this._position].Busy = this._roomModel.Busy;
-                            this._rooms[this._position].Extras = this._roomModel.Extras;
-                        }
+                        this._rooms.Add(
+                            new RoomModel(this._roomModel.Code, this._roomModel.Name,
+                                this._roomModel.Location, this._roomModel.Capacity,
+                                this._roomModel.Busy ? "S" : "N", this._roomModel.Extras)
+                        );
                     }
-                    else
+
+                    this.ShowForm();
+                }
+                else if (answer == "A" || answer == "C" || answer == "E")
+                {
+                    this.EnterData("ID");
+                    RoomModel roomFoundModel = this.FindRoom(this._roomModel.Code);
+                    bool roomFound = roomFoundModel != null;
+
+                    if (answer == "A")
                     {
-                        answer = this._window.AskInput(" Sala não encontrada. Deseja cadastrar? (s/n): ", line, colStart, colEnd).ToUpper();
-                        this._window.ClearSelection(colStart, line, colEnd, line);
-                        if (answer == "S")
+                        if (roomFound)
                         {
+                            this._position = this._rooms.IndexOf(roomFoundModel);
+                            this._roomModel = new RoomModel();
                             this.ShowForm(true);
+                            this.ShowRoom();
+                            this._window.AskInput(" Pressione Enter para editar a sala selecionada.", line, colStart, colEnd);
+                            this._window.ClearSelection(colStart, line, colEnd, line);
+                            this.ClearInputs();
                             this.EnterData("DATA");
-                            answer = this._window.AskInput(" Confirma cadastro? (s/n): ", line, colStart, colEnd).ToUpper();
+                            answer = this._window.AskInput(" Confirma edição? (s/n): ", line, colStart, colEnd)
+                                .ToUpper();
                             this._window.ClearSelection(colStart, line, colEnd, line);
                             if (answer == "S")
                             {
-                                this._rooms.Add(
-                                    new RoomModel(this._roomModel.Code, this._roomModel.Name,
-                                        this._roomModel.Location, this._roomModel.Capacity,
-                                        this._roomModel.Busy ? "S" : "N", this._roomModel.Extras)
-                                );
+                                this._rooms[this._position].Name = this._roomModel.Name;
+                                this._rooms[this._position].Location = this._roomModel.Location;
+                                this._rooms[this._position].Capacity = this._roomModel.Capacity;
+                                this._rooms[this._position].Busy = this._roomModel.Busy;
+                                this._rooms[this._position].Extras = this._roomModel.Extras;
                             }
                         }
-                    }
-                    this.ShowForm();
-                }
-                else if (answer == "C")
-                {
-                    if (roomFound)
-                    {
-                        this._position = this._rooms.IndexOf(roomFoundModel);
-                        this.ShowForm(true);
-                        this.ShowRoom();
-                        this._window.AskInput(" Pressione Enter para voltar...", line, colStart, colEnd);
-                        this._window.ClearSelection(colStart, line, colEnd, line);
-                    }
-                    else
-                    {
-                        this._window.AskInput(" Sala não encontrada. Pressione Enter para voltar.", line, colStart, colEnd);
+                        else
+                        {
+                            answer = this._window.AskInput(" Sala não encontrada. Deseja cadastrar? (s/n): ", line,
+                                colStart, colEnd).ToUpper();
+                            this._window.ClearSelection(colStart, line, colEnd, line);
+                            if (answer == "S")
+                            {
+                                this.ShowForm(true);
+                                this.EnterData("DATA");
+                                answer = this._window.AskInput(" Confirma cadastro? (s/n): ", line, colStart, colEnd)
+                                    .ToUpper();
+                                this._window.ClearSelection(colStart, line, colEnd, line);
+                                if (answer == "S")
+                                {
+                                    this._rooms.Add(
+                                        new RoomModel(this._roomModel.Code, this._roomModel.Name,
+                                            this._roomModel.Location, this._roomModel.Capacity,
+                                            this._roomModel.Busy ? "S" : "N", this._roomModel.Extras)
+                                    );
+                                }
+                            }
+                        }
+
                         this.ShowForm();
                     }
-                    this.ShowForm();
-                }
-                else if (answer == "E")
-                {
-                    if (roomFound)
+                    else if (answer == "C")
                     {
-                        this._position = this._rooms.IndexOf(roomFoundModel);
-                        this._roomModel = new RoomModel();
-                        this.ShowForm(true);
-                        this.ShowRoom();
-                        answer = this._window.AskInput(" Confirma exclusão? (s/n): ", line, colStart, colEnd).ToUpper();
-                        this._window.ClearSelection(colStart, line, colEnd, line);
-                        if (answer == "S")
+                        if (roomFound)
                         {
-                            this._rooms.RemoveAt(this._position);
+                            this._position = this._rooms.IndexOf(roomFoundModel);
+                            this.ShowForm(true);
+                            this.ShowRoom();
+                            this._window.AskInput(" Pressione Enter para voltar...", line, colStart, colEnd);
+                            this._window.ClearSelection(colStart, line, colEnd, line);
                         }
+                        else
+                        {
+                            this._window.AskInput(" Sala não encontrada. Pressione Enter para voltar.", line, colStart,
+                                colEnd);
+                            this.ShowForm();
+                        }
+
+                        this.ShowForm();
                     }
-                    else
+                    else if (answer == "E")
                     {
-                        this._window.AskInput(" Sala não encontrada.", line, colStart, colEnd);
-                        this._window.ClearSelection(colStart, line, colEnd, line);
+                        if (roomFound)
+                        {
+                            this._position = this._rooms.IndexOf(roomFoundModel);
+                            this._roomModel = new RoomModel();
+                            this.ShowForm(true);
+                            this.ShowRoom();
+                            answer = this._window.AskInput(" Confirma exclusão? (s/n): ", line, colStart, colEnd)
+                                .ToUpper();
+                            this._window.ClearSelection(colStart, line, colEnd, line);
+                            if (answer == "S")
+                            {
+                                this._rooms.RemoveAt(this._position);
+                            }
+                        }
+                        else
+                        {
+                            this._window.AskInput(" Sala não encontrada.", line, colStart, colEnd);
+                            this._window.ClearSelection(colStart, line, colEnd, line);
+                        }
+
+                        this.ShowForm();
                     }
-                    this.ShowForm();
                 }
-            }
+                else
+                {
+                    this._window.AskInput(" Opção inválida! Pressione Enter para continuar.", line, colStart, colEnd);
+                    this._window.ClearSelection(colStart, line, colEnd, line);
+                }
+            } while (answer != "V");
             this._roomModel = new RoomModel();
         }
         
