@@ -40,6 +40,8 @@
         <Reference Include="System.Xml"/>
     </ItemGroup>
     <ItemGroup>
+        <Compile Include="Controller\BookingController.cs" />
+        <Compile Include="Controller\RequestorController.cs" />
         <Compile Include="Controller\RoomController.cs" />
         <Compile Include="Model\BookingModel.cs" />
         <Compile Include="Model\RequestorModel.cs" />

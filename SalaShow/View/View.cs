@@ -117,7 +117,7 @@ namespace SalaShow
                 Console.Write(optionsList[i]);
             }
             Console.SetCursorPosition(colStart + 1, linStart + 1 + i);
-            Console.Write("Seleção: ");
+            Console.Write(" Seleção: ");
             answer = Console.ReadLine().ToUpper();
 
             return answer;

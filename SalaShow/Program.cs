@@ -11,20 +11,21 @@ namespace SalaShow
     {
       View window = new View(ConsoleColor.DarkBlue, ConsoleColor.Gray);
       RoomController roomController = new RoomController(10,5, window);
+      RequestorController requestorController = new RequestorController(10,5, window);
       
       string answer;
       List<string> optionsMenu = new List<string>();
-      optionsMenu.Add("1 - Registrar Reserva                              ");
-      optionsMenu.Add("2 - Cancelar Reserva                               ");
-      optionsMenu.Add("3 - Visualizar salas livres (por horário)          ");
-      optionsMenu.Add("4 - Visualizar reservas em sala e data específicas ");
-      optionsMenu.Add("───────────────────────────────────────────────────");
-      optionsMenu.Add("8 - Gerenciar Usuários                             ");
-      optionsMenu.Add("9 - Gerenciar Salas                                ");
-      optionsMenu.Add("───────────────────────────────────────────────────");
-      optionsMenu.Add("                                                   ");
-      optionsMenu.Add("0 - Sair                                           ");
-      optionsMenu.Add("                                                   ");
+      optionsMenu.Add(" 1 - Registrar Reserva                              ");
+      optionsMenu.Add(" 2 - Cancelar Reserva                               ");
+      optionsMenu.Add(" 3 - Visualizar salas livres (por horário)          ");
+      optionsMenu.Add(" 4 - Visualizar reservas em sala e data específicas ");
+      optionsMenu.Add("                                                    ");
+      optionsMenu.Add(" 8 - Gerenciar Usuários                             ");
+      optionsMenu.Add(" 9 - Gerenciar Salas                                ");
+      optionsMenu.Add("                                                    ");
+      optionsMenu.Add("                                                    ");
+      optionsMenu.Add(" 0 - Sair                                           ");
+      optionsMenu.Add("                                                    ");
 
       while (1 == 1)
       {
@@ -40,6 +41,10 @@ namespace SalaShow
           case "9":
             Console.Clear();
             roomController.CRUD();
+            break;
+          case "8":
+            Console.Clear();
+            requestorController.CRUD();
             break;
         }
       }
