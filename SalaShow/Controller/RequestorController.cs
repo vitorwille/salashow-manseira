@@ -61,7 +61,7 @@ namespace SalaShow.Controller
             row++;
         }
 
-        public RequestorModel FindRequestor(string requestorId)
+        internal RequestorModel FindRequestor(string requestorId)
         {
             foreach (RequestorModel requestor in _requestors)
             {

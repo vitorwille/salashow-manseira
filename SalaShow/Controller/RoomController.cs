@@ -74,7 +74,7 @@ namespace SalaShow.Controller
             Console.Write(extras);
         }
 
-        public RoomModel FindRoom(string roomCode)
+        internal RoomModel FindRoom(string roomCode)
         {
             foreach (RoomModel room in _rooms)
             {

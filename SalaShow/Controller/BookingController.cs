@@ -42,9 +42,10 @@ namespace SalaShow.Controller
 
             this._bookingModel = new BookingModel();
             this._bookings = new List<BookingModel>();
+            this._bookings.Add(new BookingModel("0", "Solicitante Exemplo", "0", "29/06/2026", "08:00", "09:00"));
         }
 
-        public BookingModel FindBooking(string requestorId, string roomId, string date, string startTime)
+        private BookingModel FindBookingToRemove(string requestorId, string roomId, string date, string startTime)
         {
             foreach (BookingModel bookingModel in _bookings)
             {
@@ -58,16 +59,42 @@ namespace SalaShow.Controller
             return null;
         }
 
+        private List<BookingModel> FindBookings(string requestorId, string roomId)
+        {
+            List<BookingModel> matches = new List<BookingModel>();
+            foreach (BookingModel b in _bookings)
+            {
+                if (b.RequestorId == requestorId && b.RoomId == roomId)
+                    matches.Add(b);
+            }
+            return matches;
+        }
+
+        private bool RoomHasBookings(string roomId)
+        {
+            foreach (BookingModel b in _bookings)
+            {
+                if (b.RoomId == roomId)
+                    return true;
+            }
+            return false;
+        }
+
         public bool IsRoomAvailable(string roomId, string date, string startTime, string endTime)
         {
+            TimeSpan reqStart = TimeSpan.Parse(startTime);
+            TimeSpan reqEnd = endTime == "00:00" ? TimeSpan.FromHours(24) : TimeSpan.Parse(endTime);
+
             foreach (BookingModel bookingModel in _bookings)
             {
                 if (bookingModel.RoomId == roomId && bookingModel.AppointmentDate == date)
                 {
-                    if (!(endTime.CompareTo(bookingModel.AppointmentTimeStart) <= 0 || startTime.CompareTo(bookingModel.AppointmentTimeEnd) >= 0))
-                    {
+                    TimeSpan existStart = TimeSpan.Parse(bookingModel.AppointmentTimeStart);
+                    TimeSpan existEnd = bookingModel.AppointmentTimeEnd == "00:00"
+                        ? TimeSpan.FromHours(24) : TimeSpan.Parse(bookingModel.AppointmentTimeEnd);
+
+                    if (reqStart < existEnd && reqEnd > existStart)
                         return false;
-                    }
                 }
             }
             return true;
@@ -155,15 +182,7 @@ namespace SalaShow.Controller
                 {
                     this.EnterData("ID");
 
-                    List<BookingModel> matches = new List<BookingModel>();
-                    foreach (BookingModel bookingModel in this._bookings)
-                    {
-                        if (bookingModel.RequestorId == this._bookingModel.RequestorId &&
-                            bookingModel.RoomId == this._bookingModel.RoomId)
-                        {
-                            matches.Add(bookingModel);
-                        }
-                    }
+                    List<BookingModel> matches = this.FindBookings(this._bookingModel.RequestorId, this._bookingModel.RoomId);
 
                     if (matches.Count == 0)
                     {
@@ -202,15 +221,10 @@ namespace SalaShow.Controller
                         string cancelStart = answer;
                         this._window.ClearSelection(colStart, line, colEnd, line);
 
-                        BookingModel toRemove = null;
-                        foreach (BookingModel bookingModel in matches)
-                        {
-                            if (bookingModel.AppointmentDate == cancelDate && bookingModel.AppointmentTimeStart == cancelStart)
-                            {
-                                toRemove = bookingModel;
-                                break;
-                            }
-                        }
+                        BookingModel toRemove = this.FindBookingToRemove(
+                            this._bookingModel.RequestorId, this._bookingModel.RoomId,
+                            cancelDate, cancelStart
+                        );
 
                         if (toRemove != null)
                         {
@@ -224,17 +238,7 @@ namespace SalaShow.Controller
                             {
                                 this._bookings.Remove(toRemove);
 
-                                bool hasOtherBookings = false;
-                                foreach (BookingModel bookingModel in this._bookings)
-                                {
-                                    if (bookingModel.RoomId == roomId)
-                                    {
-                                        hasOtherBookings = true;
-                                        break;
-                                    }
-                                }
-
-                                if (!hasOtherBookings)
+                                if (!this.RoomHasBookings(roomId))
                                 {
                                     foreach (RoomModel roomModel in this._roomController.Rooms)
                                     {
@@ -284,12 +288,6 @@ namespace SalaShow.Controller
                 Console.Write(this._fields[i]);
                 row++;
             }
-        }
-
-        public void ClearInputs()
-        {
-            int colEnd = this._column + this._width - 1;
-            this._window.ClearSelection(this._inputColumn, this._row + 4, colEnd, this._row + 2 + this._fields.Count - 1);
         }
 
         public void EnterData(string mode)
@@ -397,15 +395,7 @@ namespace SalaShow.Controller
             this.ShowForm(2);
             this.EnterData("ID");
 
-            List<BookingModel> matches = new List<BookingModel>();
-            foreach (BookingModel bookingModel in this._bookings)
-            {
-                if (bookingModel.RequestorId == this._bookingModel.RequestorId &&
-                    bookingModel.RoomId == this._bookingModel.RoomId)
-                {
-                    matches.Add(bookingModel);
-                }
-            }
+            List<BookingModel> matches = this.FindBookings(this._bookingModel.RequestorId, this._bookingModel.RoomId);
 
             if (matches.Count == 0)
             {
@@ -439,15 +429,10 @@ namespace SalaShow.Controller
             string cancelStart = answer;
             this._window.ClearSelection(colStart, line, colEnd, line);
 
-            BookingModel toRemove = null;
-            foreach (BookingModel bookingModel in matches)
-            {
-                if (bookingModel.AppointmentDate == cancelDate && bookingModel.AppointmentTimeStart == cancelStart)
-                {
-                    toRemove = bookingModel;
-                    break;
-                }
-            }
+            BookingModel toRemove = this.FindBookingToRemove(
+                this._bookingModel.RequestorId, this._bookingModel.RoomId,
+                cancelDate, cancelStart
+            );
 
             if (toRemove != null)
             {
@@ -461,17 +446,7 @@ namespace SalaShow.Controller
                 {
                     this._bookings.Remove(toRemove);
 
-                    bool hasOtherBookings = false;
-                    foreach (BookingModel bookingModel in this._bookings)
-                    {
-                        if (bookingModel.RoomId == roomId)
-                        {
-                            hasOtherBookings = true;
-                            break;
-                        }
-                    }
-
-                    if (!hasOtherBookings)
+                    if (!this.RoomHasBookings(roomId))
                     {
                         foreach (RoomModel roomModel in this._roomController.Rooms)
                         {
