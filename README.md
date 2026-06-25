@@ -30,21 +30,22 @@ Ou clique com o botão direito na solução e selecione **Restore NuGet Packages
 
 ---
 
-### Ubuntu (ou Windows) - Utilizando Rider
+### Ubuntu - Utilizando Rider
 
 1. Instale o **Mono** (necessário para compilar projetos .NET Framework no Linux):
 
-```
+```bash
 sudo apt update
 sudo apt install mono-complete
 ```
 
 2. Abra a solução `SalaShow.sln` no Rider.
 3. Vá em **Build > Build Solution** (Ctrl+F9).
+4. Vá até a pasta `bin/Debug` e execute o comando em seu terminal: `mono SalaShow.exe`
 
-Caso os pacotes não sejam restaurados automaticamente, execute no terminal:
+Caso os pacotes não sejam restaurados automaticamente e a build falhe, execute no terminal:
 
-```
+```bash
 dotnet restore
 ```
 
