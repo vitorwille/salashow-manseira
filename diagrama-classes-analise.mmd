@@ -1,0 +1,139 @@
+classDiagram
+    class RoomModel {
+        -string _code
+        -string _name
+        -string _location
+        -string _capacity
+        -bool _busy
+        -List~string~ _extras
+        +string Code
+        +string Name
+        +string Location
+        +string Capacity
+        +bool Busy
+        +List~string~ Extras
+        +RoomModel()
+        +RoomModel(roomCode, roomName, roomLocation, roomCapacity, roomBusy, roomExtras)
+    }
+
+    class RequestorModel {
+        -string _id
+        -string _name
+        -string _department
+        -string _phone
+        +string Id
+        +string Name
+        +string Department
+        +string Phone
+        +RequestorModel()
+        +RequestorModel(requestorId, requestorName, requestorDepartment, requestorPhone)
+    }
+
+    class BookingModel {
+        -string _requestorId
+        -string _requestorName
+        -string _roomId
+        -string _appointmentDate
+        -string _appointmentTimeStart
+        -string _appointmentTimeEnd
+        +string RequestorId
+        +string RequestorName
+        +string RoomId
+        +string AppointmentDate
+        +string AppointmentTimeStart
+        +string AppointmentTimeEnd
+        +BookingModel()
+        +BookingModel(requestorId, requestorName, roomId, appointmentDate, appointmentTimeStart, appointmentTimeEnd)
+    }
+
+    class View {
+        -ConsoleColor _colorBg
+        -ConsoleColor _colorText
+        +View(colorBg, colorTxt)
+        +View()
+        +PrepareWindow(windowTitle, colStart, linStart, colEnd, linEnd)
+        +CenterWindow(colStart, colEnd, line, windowTitle)
+        +AskInput(dialogText, line, colStart, colEnd) string
+        +ClearSelection(colStart, linStart, colEnd, linEnd)
+        +DrawWindow(colStart, linStart, colEnd, linEnd)
+        +ShowOptionsModal(colStart, linStart, optionsList) string
+    }
+
+    class RoomController {
+        -int _column, _row, _width, _height, _position, _inputColumn
+        -View _window
+        -List~string~ _fields
+        -RoomModel _roomModel
+        -List~RoomModel~ _rooms
+        +List~RoomModel~ Rooms
+        +RoomController(col, row, window)
+        +ShowRoom()
+        +FindRoom(roomCode) RoomModel
+        +CRUD()
+        +ShowForm(showAllFields)
+        +ClearInputs()
+        +EnterData(mode)
+        +ShowAllRooms()
+    }
+
+    class RequestorController {
+        -int _column, _row, _width, _height, _position, _inputColumn
+        -View _window
+        -List~string~ _fields
+        -RequestorModel _requestorModel
+        -List~RequestorModel~ _requestors
+        +List~RequestorModel~ Requestors
+        +RequestorController(col, row, window)
+        +ShowRequestor()
+        +FindRequestor(requestorId) RequestorModel
+        +CRUD()
+        +ShowForm(showAllFields)
+        +ClearInputs()
+        +EnterData(mode)
+    }
+
+    class BookingController {
+        -int _column, _row, _width, _height, _inputColumn
+        -View _window
+        -List~string~ _fields
+        -BookingModel _bookingModel
+        -List~BookingModel~ _bookings
+        -RoomController _roomController
+        -RequestorController _requestorController
+        +List~BookingModel~ Bookings
+        +BookingController(col, row, window, roomController, requestorController)
+        -FindBookingToRemove(requestorId, roomId, date, startTime) BookingModel
+        -FindBookings(requestorId, roomId) List~BookingModel~
+        -RoomHasBookings(roomId) bool
+        +IsRoomAvailable(roomId, date, startTime, endTime) bool
+        +CRUD()
+        +ShowForm(showFields)
+        +EnterData(mode)
+        +RegisterBooking()
+        +CancelBooking()
+        +ShowFreeRooms()
+        +ShowBookingsByRoomAndDate()
+    }
+
+    class Program {
+        +Main(args) void
+    }
+
+    RoomController --> View : usa
+    RoomController --> RoomModel : cria/gerencia
+    RoomController --> "0..*" RoomModel : contém
+
+    RequestorController --> View : usa
+    RequestorController --> RequestorModel : cria/gerencia
+    RequestorController --> "0..*" RequestorModel : contém
+
+    BookingController --> View : usa
+    BookingController --> BookingModel : cria/gerencia
+    BookingController --> "0..*" BookingModel : contém
+    BookingController --> RoomController : usa
+    BookingController --> RequestorController : usa
+
+    Program --> View : cria
+    Program --> RoomController : cria
+    Program --> RequestorController : cria
+    Program --> BookingController : cria
