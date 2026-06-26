@@ -81,4 +81,16 @@ dotnet restore SalaShow.sln
 
 ---
 
+## Diagramas
+
+### Diagrama de Classes de Análise
+
+O arquivo do diagrama pode ser visualizado em: [diagrama-classes-analise.mmd](diagrama-classes-analise.mmd)
+
+### Diagrama de Classes de Projeto
+
+O arquivo do diagrama pode ser visualizado em: [diagrama-classes-analise.mmd](diagrama-classes-projeto.mmd)
+
+---
+
 Criado em ambiente Linux.
