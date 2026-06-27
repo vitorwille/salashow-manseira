@@ -34,7 +34,10 @@ namespace SalaShow.Controller
 
             int maxLabelLen = 0;
             for (int i = 1; i < this._fields.Count; i++)
-                if (this._fields[i].Length > maxLabelLen) maxLabelLen = this._fields[i].Length;
+                if (this._fields[i].Length > maxLabelLen)
+                {
+                    maxLabelLen = this._fields[i].Length;
+                }
 
             this._inputColumn = this._column + 1 + maxLabelLen;
             this._width = this._fields[0].Length + 1;
@@ -65,7 +68,9 @@ namespace SalaShow.Controller
             foreach (BookingModel b in _bookings)
             {
                 if (b.RequestorId == requestorId && b.RoomId == roomId)
+                {
                     matches.Add(b);
+                }
             }
             return matches;
         }
@@ -75,7 +80,9 @@ namespace SalaShow.Controller
             foreach (BookingModel b in _bookings)
             {
                 if (b.RoomId == roomId)
+                {
                     return true;
+                }
             }
             return false;
         }
@@ -107,18 +114,29 @@ namespace SalaShow.Controller
                 if (bookingModel.RoomId == roomId && bookingModel.AppointmentDate == date)
                 {
                     if (!TimeSpan.TryParse(bookingModel.AppointmentTimeStart, out TimeSpan existStart))
+                    {
                         continue;
+                    }
 
                     TimeSpan existEnd;
                     if (bookingModel.AppointmentTimeEnd == "00:00")
+                    {
                         existEnd = TimeSpan.FromHours(24);
+                    }
                     else if (!TimeSpan.TryParse(bookingModel.AppointmentTimeEnd, out existEnd))
+                    {
                         continue;
+                    }
 
-                    if (existEnd < existStart) existEnd += TimeSpan.FromHours(24);
+                    if (existEnd < existStart)
+                    {
+                        existEnd += TimeSpan.FromHours(24);
+                    }
 
                     if (reqStart < existEnd && reqEnd > existStart)
+                    {
                         return false;
+                    }
                 }
             }
             return true;
@@ -205,8 +223,7 @@ namespace SalaShow.Controller
             RoomModel roomModel = this._roomController.FindRoom(this._bookingModel.RoomId);
             if (roomModel == null)
             {
-                this._window.AskInput(" Sala não encontrada! Pressione Enter para continuar.", line,
-                    colStart, colEnd);
+                this._window.AskInput(" Sala não encontrada! Pressione Enter para continuar.", line, colStart, colEnd);
                 this._window.ClearSelection(colStart, line, colEnd, line);
                 return;
             }
