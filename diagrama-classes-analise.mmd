@@ -68,7 +68,7 @@ classDiagram
         +List~RoomModel~ Rooms
         +RoomController(col, row, window)
         +ShowRoom()
-        +FindRoom(roomCode) RoomModel
+        ~FindRoom(roomCode) RoomModel
         +CRUD()
         +ShowForm(showAllFields)
         +ClearInputs()
@@ -85,7 +85,7 @@ classDiagram
         +List~RequestorModel~ Requestors
         +RequestorController(col, row, window)
         +ShowRequestor()
-        +FindRequestor(requestorId) RequestorModel
+        ~FindRequestor(requestorId) RequestorModel
         +CRUD()
         +ShowForm(showAllFields)
         +ClearInputs()
@@ -106,7 +106,6 @@ classDiagram
         -FindBookings(requestorId, roomId) List~BookingModel~
         -RoomHasBookings(roomId) bool
         +IsRoomAvailable(roomId, date, startTime, endTime) bool
-        +CRUD()
         +ShowForm(showFields)
         +EnterData(mode)
         +RegisterBooking()
@@ -116,7 +115,7 @@ classDiagram
     }
 
     class Program {
-        +Main(args) void
+        +$Main(args) void
     }
 
     RoomController --> View : usa
