@@ -82,192 +82,46 @@ namespace SalaShow.Controller
 
         public bool IsRoomAvailable(string roomId, string date, string startTime, string endTime)
         {
-            TimeSpan reqStart = TimeSpan.Parse(startTime);
-            TimeSpan reqEnd = endTime == "00:00" ? TimeSpan.FromHours(24) : TimeSpan.Parse(endTime);
+            if (!TimeSpan.TryParse(startTime, out TimeSpan reqStart))
+            {
+                return false;
+            }
+
+            TimeSpan reqEnd;
+            if (endTime == "00:00")
+            {
+                reqEnd = TimeSpan.FromHours(24);
+            }
+            else if (!TimeSpan.TryParse(endTime, out reqEnd))
+            {
+                return false;
+            }
+
+            if (reqEnd < reqStart)
+            {
+                reqEnd += TimeSpan.FromHours(24);
+            }
 
             foreach (BookingModel bookingModel in _bookings)
             {
                 if (bookingModel.RoomId == roomId && bookingModel.AppointmentDate == date)
                 {
-                    TimeSpan existStart = TimeSpan.Parse(bookingModel.AppointmentTimeStart);
-                    TimeSpan existEnd = bookingModel.AppointmentTimeEnd == "00:00"
-                        ? TimeSpan.FromHours(24) : TimeSpan.Parse(bookingModel.AppointmentTimeEnd);
+                    if (!TimeSpan.TryParse(bookingModel.AppointmentTimeStart, out TimeSpan existStart))
+                        continue;
+
+                    TimeSpan existEnd;
+                    if (bookingModel.AppointmentTimeEnd == "00:00")
+                        existEnd = TimeSpan.FromHours(24);
+                    else if (!TimeSpan.TryParse(bookingModel.AppointmentTimeEnd, out existEnd))
+                        continue;
+
+                    if (existEnd < existStart) existEnd += TimeSpan.FromHours(24);
 
                     if (reqStart < existEnd && reqEnd > existStart)
                         return false;
                 }
             }
             return true;
-        }
-
-        public void CRUD()
-        {
-            string answer;
-            int colStart = this._column + 1;
-            int colEnd = this._column + this._width - 1;
-            int line = this._row + this._height - 1;
-
-            do
-            {
-                this.ShowForm();
-                answer = this._window.AskInput(" (N)ovo | (C)onsultar | (E)xcluir | (V)oltar: ", line,
-                    colStart, colEnd).ToUpper();
-                this._window.ClearSelection(colStart, line, colEnd, line);
-
-                if (answer == "V")
-                {
-                    break;
-                }
-                else if (answer == "N")
-                {
-                    this.ShowForm(-1);
-                    this.EnterData("ID");
-                    this.EnterData("DATA");
-
-                    RequestorModel requestorModel = this._requestorController.FindRequestor(this._bookingModel.RequestorId);
-                    if (requestorModel == null)
-                    {
-                        this._window.AskInput(" Solicitante não encontrado! Pressione Enter para continuar.", line,
-                            colStart, colEnd);
-                        this._window.ClearSelection(colStart, line, colEnd, line);
-                        this.ShowForm();
-                        continue;
-                    }
-
-                    this._bookingModel.RequestorName = requestorModel.Name;
-
-                    RoomModel roomModel = this._roomController.FindRoom(this._bookingModel.RoomId);
-                    if (roomModel == null)
-                    {
-                        this._window.AskInput(" Sala não encontrada! Pressione Enter para continuar.", line,
-                            colStart, colEnd);
-                        this._window.ClearSelection(colStart, line, colEnd, line);
-                        this.ShowForm();
-                        continue;
-                    }
-
-                    if (!this.IsRoomAvailable(this._bookingModel.RoomId, this._bookingModel.AppointmentDate,
-                        this._bookingModel.AppointmentTimeStart, this._bookingModel.AppointmentTimeEnd))
-                    {
-                        this._window.AskInput(" Sala já reservada neste horário! Pressione Enter para continuar", line,
-                            colStart, colEnd);
-                        this._window.ClearSelection(colStart, line, colEnd, line);
-                        this.ShowForm();
-                        continue;
-                    }
-
-                    answer = this._window.AskInput(" Confirma reserva? (s/n): ", line, colStart, colEnd).ToUpper();
-                    this._window.ClearSelection(colStart, line, colEnd, line);
-                    if (answer == "S")
-                    {
-                        this._bookings.Add(
-                            new BookingModel(this._bookingModel.RequestorId, this._bookingModel.RequestorName, this._bookingModel.RoomId,
-                                this._bookingModel.AppointmentDate, this._bookingModel.AppointmentTimeStart,
-                                this._bookingModel.AppointmentTimeEnd)
-                        );
-
-                        foreach (RoomModel roomModel2 in this._roomController.Rooms)
-                        {
-                            if (roomModel2.Code == this._bookingModel.RoomId)
-                            {
-                                roomModel2.Busy = true;
-                                break;
-                            }
-                        }
-                    }
-
-                    this.ShowForm();
-                }
-                else if (answer == "C" || answer == "E")
-                {
-                    this.EnterData("ID");
-
-                    List<BookingModel> matches = this.FindBookings(this._bookingModel.RequestorId, this._bookingModel.RoomId);
-
-                    if (matches.Count == 0)
-                    {
-                        string msg = " Reserva não encontrada. Pressione Enter para continuar.";
-                        this._window.AskInput(msg, line, colStart, colEnd);
-                        this._window.ClearSelection(colStart, line, colEnd, line);
-                        this.ShowForm();
-                        continue;
-                    }
-
-                    this.ShowForm(-1);
-
-                    int displayRow = this._row + 3;
-                    foreach (BookingModel bookingModel in matches)
-                    {
-                        Console.SetCursorPosition(colStart, displayRow);
-                        Console.Write(bookingModel.RequestorId + " | " + bookingModel.RoomId + " | " + bookingModel.AppointmentDate +
-                            " | " + bookingModel.AppointmentTimeStart + "-" + bookingModel.AppointmentTimeEnd + "  ");
-                        displayRow++;
-                    }
-
-                    if (answer == "C")
-                    {
-                        this._window.AskInput(" Pressione Enter para voltar...", line, colStart, colEnd);
-                        this._window.ClearSelection(colStart, line, colEnd, line);
-                    }
-                    else if (answer == "E")
-                    {
-                        answer = this._window.AskInput(" Digite a data (dd/mm/aaaa) da reserva a cancelar: ", line,
-                            colStart, colEnd);
-                        string cancelDate = answer;
-                        this._window.ClearSelection(colStart, line, colEnd, line);
-
-                        answer = this._window.AskInput(" Digite o horário de início da reserva a cancelar (HH:mm): ", line,
-                            colStart, colEnd);
-                        string cancelStart = answer;
-                        this._window.ClearSelection(colStart, line, colEnd, line);
-
-                        BookingModel toRemove = this.FindBookingToRemove(
-                            this._bookingModel.RequestorId, this._bookingModel.RoomId,
-                            cancelDate, cancelStart
-                        );
-
-                        if (toRemove != null)
-                        {
-                            string roomId = toRemove.RoomId;
-
-                            answer = this._window.AskInput(" Confirma cancelamento? (s/n): ", line, colStart, colEnd)
-                                .ToUpper();
-                            this._window.ClearSelection(colStart, line, colEnd, line);
-
-                            if (answer == "S")
-                            {
-                                this._bookings.Remove(toRemove);
-
-                                if (!this.RoomHasBookings(roomId))
-                                {
-                                    foreach (RoomModel roomModel in this._roomController.Rooms)
-                                    {
-                                        if (roomModel.Code == roomId)
-                                        {
-                                            roomModel.Busy = false;
-                                            break;
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                        else
-                        {
-                            this._window.AskInput(" Reserva não encontrada. Pressione Enter para continuar.",
-                                line, colStart, colEnd);
-                            this._window.ClearSelection(colStart, line, colEnd, line);
-                        }
-                    }
-
-                    this.ShowForm();
-                }
-                else
-                {
-                    this._window.AskInput(" Opção inválida! Pressione Enter para continuar.", line, colStart, colEnd);
-                    this._window.ClearSelection(colStart, line, colEnd, line);
-                }
-            } while (answer != "V");
-            this._bookingModel = new BookingModel();
         }
 
         public void ShowForm(int showFields = -1)
@@ -329,6 +183,13 @@ namespace SalaShow.Controller
             this.ShowForm(-1);
             this.EnterData("ID");
             this.EnterData("DATA");
+
+            if (!TimeSpan.TryParse(this._bookingModel.AppointmentTimeStart, out _) || !TimeSpan.TryParse(this._bookingModel.AppointmentTimeEnd, out _))
+            {
+                this._window.AskInput(" Horário inválido! Pressione Enter para continuar.", line, colStart, colEnd);
+                this._window.ClearSelection(colStart, line, colEnd, line);
+                return;
+            }
 
             RequestorModel requestorModel = this._requestorController.FindRequestor(this._bookingModel.RequestorId);
             if (requestorModel == null)
@@ -494,6 +355,16 @@ namespace SalaShow.Controller
             Console.SetCursorPosition(colStart, this._row + 5);
             Console.Write("Horário término (HH:mm): ");
             string endTime = Console.ReadLine();
+
+            if (!TimeSpan.TryParse(startTime, out _) || !TimeSpan.TryParse(endTime, out _))
+            {
+                this._window.ClearSelection(colStart, this._row + 3, colEnd, this._row + 5);
+                Console.SetCursorPosition(colStart, this._row + 3);
+                Console.Write(" Horário inválido! Use o formato HH:mm.");
+                this._window.AskInput(" Pressione Enter para voltar.", line, colStart, colEnd);
+                this._window.ClearSelection(colStart, line, colEnd, line);
+                return;
+            }
 
             List<RoomModel> freeRooms = new List<RoomModel>();
             foreach (RoomModel roomModel in this._roomController.Rooms)
