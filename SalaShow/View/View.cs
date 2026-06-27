@@ -65,41 +65,41 @@ namespace SalaShow
 
             // quina baixo esq
             Console.SetCursorPosition(colStart, linEnd);
-            Console.Write('┗');
+            Console.Write('└');
 
             // quina baixo dir
             Console.SetCursorPosition(colEnd, linEnd);
-            Console.Write('┛');
+            Console.Write('┘');
             
             // quina cima esq
             Console.SetCursorPosition(colStart, linStart);
-            Console.Write('┏');
+            Console.Write('┌');
 
             // quina cima dir
             Console.SetCursorPosition(colEnd, linStart);
-            Console.Write('┓');
+            Console.Write('┐');
             
             // vertical
             for(line=linStart+1; line<linEnd; line++)
             {
                 Console.SetCursorPosition(colStart, line);
-                Console.Write("┃");
+                Console.Write("│");
                 Console.SetCursorPosition(colEnd, line);
-                Console.Write("┃");
+                Console.Write("│");
             }
             
             // horizontal - cima
             for(column=colStart+1; column<colEnd; column++) 
             {
                 Console.SetCursorPosition(column, linStart);
-                Console.Write('━');
+                Console.Write('─');
             }
 
             // horizontal - baixo
             for(column=colStart+1; column<colEnd; column++) 
             {
                 Console.SetCursorPosition(column, linEnd);
-                Console.Write('━');
+                Console.Write('─');
             }
         }
         
